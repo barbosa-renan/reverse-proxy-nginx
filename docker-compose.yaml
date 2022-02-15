@@ -1,0 +1,26 @@
+version: '3.3'
+
+networks:
+  shopping-network:
+    driver: 'bridge'
+
+services:
+  shopping-webapi:
+    image: shopping-webapi
+    container_name: shopping-webapi
+    build:
+      context: /home/renanbarbosa/workspace/Nginx/
+      dockerfile: ShoppingWebAPI/Dockerfile
+    depends_on:
+      - reverse-proxy
+    networks:
+      - shopping-network
+
+  reverse-proxy:
+    image: reverse-proxy
+    container_name: reverse-proxy
+    build:
+      context: /home/renanbarbosa/workspace/Nginx/
+      dockerfile: ShoppingWebAPI/Nginx/Dockerfile
+    networks:
+      - shopping-network
